@@ -1,0 +1,8 @@
+dbt_training:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      threads: 3
+      path: data/db.duckdb
+      extensions: []

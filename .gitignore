@@ -11,3 +11,10 @@ wheels/
 
 # dbt
 logs/
+.user.yml
+
+# Database files
+data/
+
+# Marimo
+__marimo__/
