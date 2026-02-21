@@ -11,6 +11,7 @@ wheels/
 
 # dbt
 logs/
+target/
 .user.yml
 
 # Database files
@@ -18,3 +19,10 @@ data/
 
 # Marimo
 __marimo__/
+
+# Airflow
+airflow/logs/
+airflow.db
+airflow.db-shm
+airflow.db-wal
+simple_auth_manager_passwords.json.generated

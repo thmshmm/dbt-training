@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: main
+    schema: main
+    tables:
+      - name: raw_orders
+        description: Table with raw order data ingested from the source system.
+      - name: raw_customers
+        description: Table with raw customer data ingested from the source system.
+      - name: raw_payments
+        description: Table with raw payment data ingested from the source system.
