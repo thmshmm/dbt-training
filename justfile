@@ -20,6 +20,9 @@ start-notebook:
 seed-data:
 	dbt seed
 
+create-manifest:
+	dbt compile
+
 start-airflow:
 	AIRFLOW_HOME={{invocation_directory()}}/airflow \
 	AIRFLOW__CORE__DAGS_FOLDER={{invocation_directory()}}/airflow/dags \
