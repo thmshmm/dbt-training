@@ -8,20 +8,11 @@ setup-project:
 	mkdir -p data
 	duckdb data/db.duckdb "PRAGMA database_size;"
 
-build-examples:
-	dbt build --select example
-
 start-duckdb:
 	duckdb data/db.duckdb -ui
 
 start-notebook:
 	marimo edit notebook.py
-
-seed-data:
-	dbt seed
-
-create-manifest:
-	dbt compile
 
 start-airflow:
 	AIRFLOW_HOME={{invocation_directory()}}/airflow \
@@ -31,3 +22,29 @@ start-airflow:
 	AIRFLOW__CORE__PLUGINS_FOLDER={{invocation_directory()}}/airflow/plugins \
 	AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:///{{invocation_directory()}}/airflow/airflow.db \
 		airflow standalone
+
+seed-data:
+	dbt seed
+
+create-manifest:
+	dbt compile
+
+# Run the incremental model example 
+run-incremental:
+	dbt run --select daily_order_summary
+
+# Run incremental model with full refresh (rebuilds from scratch)
+run-incremental-full:
+	dbt run --select daily_order_summary --full-refresh
+
+# Add test data with future dates to demonstrate incremental processing
+add-test-data:
+	@echo "100,1,20180501,completed" >> dbt_training/seeds/raw_orders.csv
+	@echo "101,2,20180502,completed" >> dbt_training/seeds/raw_orders.csv  
+	@echo "102,3,20180503,placed" >> dbt_training/seeds/raw_orders.csv
+	dbt seed --select raw_orders
+	@echo "New test data added! Now run 'just run-incremental' to see incremental processing."
+
+# Build all models including the incremental example
+build-all:
+	dbt build

@@ -98,5 +98,27 @@ def _(conn, mo, orders):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Incremental
+    """)
+    return
+
+
+@app.cell
+def _(conn, daily_order_summary, mo):
+    _df = mo.sql(
+        f"""
+        SELECT order_date, dbt_run_started_at
+        FROM daily_order_summary 
+        ORDER BY 1 DESC
+        LIMIT 10;
+        """,
+        engine=conn
+    )
+    return
+
+
 if __name__ == "__main__":
     app.run()

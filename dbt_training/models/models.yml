@@ -89,3 +89,33 @@ models:
         description: Amount of the order (AUD) paid for by gift card
         tests:
           - not_null
+
+  - name: daily_order_summary
+    description: This table demonstrates incremental materialization by aggregating order metrics by day.
+    columns:
+      - name: order_date
+        description: Date of the orders being summarized (unique key for incremental updates)
+        tests:
+          - unique
+          - not_null
+
+      - name: total_orders
+        description: Total number of orders placed on this date
+
+      - name: completed_orders
+        description: Number of orders with 'completed' status
+
+      - name: returned_orders
+        description: Number of orders with 'returned' status
+
+      - name: placed_orders
+        description: Number of orders with 'placed' status
+
+      - name: shipped_orders
+        description: Number of orders with 'shipped' status
+
+      - name: last_updated_at
+        description: Timestamp when this record was last updated (useful for debugging incremental runs)
+
+      - name: dbt_run_started_at  
+        description: dbt run timestamp - shows which dbt run last touched this record
