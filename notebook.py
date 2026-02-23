@@ -120,5 +120,29 @@ def _(conn, daily_order_summary, mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Python model
+    """)
+    return
+
+
+@app.cell
+def _(conn, mo, orders_extended):
+    _df = mo.sql(
+        f"""
+        SELECT
+            order_id,
+            order_date,
+            amount,
+            extended_col
+        FROM orders_extended;
+        """,
+        engine=conn
+    )
+    return
+
+
 if __name__ == "__main__":
     app.run()

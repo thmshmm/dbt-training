@@ -90,6 +90,72 @@ models:
         tests:
           - not_null
 
+  - name: orders_extended
+    description: This table extends the orders table with additional derived columns to showcase Python models.
+
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+        description: This is a unique identifier for an order
+
+      - name: customer_id
+        description: Foreign key to the customers table
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('customers')
+                field: customer_id
+
+      - name: order_date
+        description: Date (UTC) that the order was placed
+
+      - name: status
+        description: '{{ doc("orders_status") }}'
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  [
+                    "placed",
+                    "shipped",
+                    "completed",
+                    "return_pending",
+                    "returned",
+                  ]
+
+      - name: amount
+        description: Total amount (AUD) of the order
+        tests:
+          - not_null
+
+      - name: credit_card_amount
+        description: Amount of the order (AUD) paid for by credit card
+        tests:
+          - not_null
+
+      - name: coupon_amount
+        description: Amount of the order (AUD) paid for by coupon
+        tests:
+          - not_null
+
+      - name: bank_transfer_amount
+        description: Amount of the order (AUD) paid for by bank transfer
+        tests:
+          - not_null
+
+      - name: gift_card_amount
+        description: Amount of the order (AUD) paid for by gift card
+        tests:
+          - not_null
+
+      - name: extended_col
+        description: This is a copy of the amount column
+        tests:
+          - not_null
+
   - name: daily_order_summary
     description: This table demonstrates incremental materialization by aggregating order metrics by day.
     columns:
@@ -117,5 +183,6 @@ models:
       - name: last_updated_at
         description: Timestamp when this record was last updated (useful for debugging incremental runs)
 
-      - name: dbt_run_started_at  
+      - name: dbt_run_started_at
         description: dbt run timestamp - shows which dbt run last touched this record
+
