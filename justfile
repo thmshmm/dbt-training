@@ -51,3 +51,7 @@ build-all:
 
 run-unit-tests:
 	dbt test --select test_type:unit
+
+dbt-docs:
+	dbt docs generate
+	dbt docs serve

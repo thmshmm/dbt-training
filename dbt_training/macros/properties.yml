@@ -1,0 +1,8 @@
+macros:
+  - name: parse_date
+    description: "Parses a date string like '20260201' into a date object. Example usage: \\{\\{ parse_date('20260201') \\}\\}"
+    arguments:
+      - name: date_string
+        description: "The date string to parse."
+        type: string
+    return_type: date
