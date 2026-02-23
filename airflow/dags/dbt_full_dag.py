@@ -44,6 +44,9 @@ def dbt_full_dag():
     for node in data["nodes"].keys():
         if node.split(".")[0] == "model":
             model = node.split(".")[-1]
+            if model.startswith("test_"):
+                # skip unit test model
+                continue
             dbt_tasks[node] = run_dbt_with_id(node)(model)
 
     for node in data["nodes"].keys():

@@ -60,6 +60,7 @@ just start-airflow
 ├── dbt_training/          # dbt project directory
 │   ├── models/            # dbt models
 │   │   ├── staging/       # Staging layer models
+│   │   ├── unit_tests/    # Ephemeral models for unit tests
 │   │   ├── daily_order_summary.sql  # Incremental model example
 │   │   └── ...
 │   ├── seeds/             # CSV files for initial data, used to simulate sources

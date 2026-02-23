@@ -48,3 +48,6 @@ add-test-data:
 # Build all models including the incremental example
 build-all:
 	dbt build
+
+run-unit-tests:
+	dbt test --select test_type:unit
