@@ -11,11 +11,16 @@ This is an example project for teaching the basics of dbt (data build tool). It 
 
 This project uses [just](https://github.com/casey/just) as a command runner. All commands should be run from the project root.
 
+Ensure you have `just` and `duckdb` installed on your machine before proceeding.
+
 ### Initial Setup
 
 ```bash
 # Set up the project and database
 just setup-project
+
+# Source the .envrc or use direnv to activate the virtual environment and set required environment variables
+source .envrc
 
 # Load initial seed data
 just seed-data

@@ -7,6 +7,9 @@ cleanup-project:
 setup-project:
 	mkdir -p data
 	duckdb data/db.duckdb "PRAGMA database_size;"
+	uv venv
+	source .venv/bin/activate
+	uv sync
 
 start-duckdb:
 	duckdb data/db.duckdb -ui
