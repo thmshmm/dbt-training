@@ -3,6 +3,16 @@ dbt_training:
   outputs:
     dev:
       type: duckdb
-      threads: 3
+      threads: 1
       path: data/db.duckdb
       extensions: []
+
+    # test:
+    #   host: NA
+    #   method: session
+    #   schema: my_schema
+    #   type: spark
+    #   server_side_parameters:
+    #     "spark.executor.cores": "2"
+    #     "spark.executor.memory": "16G"
+    #     ...

@@ -6,9 +6,9 @@
     )
 }}
 
-select 
-	order_date,
+select
 
+	order_date,
 	count(distinct order_id) as total_orders,
 
 	-- Metadata fields

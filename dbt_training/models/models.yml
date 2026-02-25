@@ -1,34 +1,6 @@
 version: 2
 
 models:
-  - name: customers
-    description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
-
-    columns:
-      - name: customer_id
-        description: This is a unique identifier for a customer
-        tests:
-          - unique
-          - not_null
-
-      - name: first_name
-        description: Customer's first name. PII.
-
-      - name: last_name
-        description: Customer's last name. PII.
-
-      - name: first_order
-        description: Date (UTC) of a customer's first order
-
-      - name: most_recent_order
-        description: Date (UTC) of a customer's most recent order
-
-      - name: number_of_orders
-        description: Count of the number of orders a customer has placed
-
-      - name: total_order_amount
-        description: Total value (AUD) of a customer's orders
-
   - name: orders
     description: This table has basic information about orders, as well as some derived facts based on payments
 
@@ -94,65 +66,18 @@ models:
     description: This table extends the orders table with additional derived columns to showcase Python models.
 
     columns:
-      - name: order_id
-        tests:
-          - unique
-          - not_null
-        description: This is a unique identifier for an order
-
-      - name: customer_id
-        description: Foreign key to the customers table
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('customers')
-                field: customer_id
-
       - name: order_date
-        description: Date (UTC) that the order was placed
-
-      - name: status
-        description: '{{ doc("orders_status") }}'
-        tests:
-          - accepted_values:
-              arguments:
-                values:
-                  [
-                    "placed",
-                    "shipped",
-                    "completed",
-                    "return_pending",
-                    "returned",
-                  ]
-
-      - name: amount
-        description: Total amount (AUD) of the order
+        description: This is the date an order was placed
         tests:
           - not_null
 
-      - name: credit_card_amount
-        description: Amount of the order (AUD) paid for by credit card
+      - name: total_orders
+        description: Total number of orders placed on this date
         tests:
           - not_null
-
-      - name: coupon_amount
-        description: Amount of the order (AUD) paid for by coupon
-        tests:
-          - not_null
-
-      - name: bank_transfer_amount
-        description: Amount of the order (AUD) paid for by bank transfer
-        tests:
-          - not_null
-
-      - name: gift_card_amount
-        description: Amount of the order (AUD) paid for by gift card
-        tests:
-          - not_null
-
-      - name: extended_col
-        description: This is a copy of the amount column
+      
+      - name: total_orders_doubled
+        description: This is the total_orders column multiplied by 2, just to demonstrate how to add derived columns in a Python model.
         tests:
           - not_null
 
@@ -186,3 +111,30 @@ models:
       - name: dbt_run_started_at
         description: dbt run timestamp - shows which dbt run last touched this record
 
+  - name: customers
+    description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
+
+    columns:
+      - name: customer_id
+        description: This is a unique identifier for a customer
+        tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        description: Customer's first name. PII.
+
+      - name: last_name
+        description: Customer's last name. PII.
+
+      - name: first_order
+        description: Date (UTC) of a customer's first order
+
+      - name: most_recent_order
+        description: Date (UTC) of a customer's most recent order
+
+      - name: number_of_orders
+        description: Count of the number of orders a customer has placed
+
+      - name: total_order_amount
+        description: Total value (AUD) of a customer's orders

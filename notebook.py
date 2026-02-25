@@ -17,22 +17,11 @@ def _():
     import marimo as mo
     import duckdb
 
-    conn = duckdb.connect('data/db.duckdb', read_only=True)
-    return conn, mo
+    def q(query):
+        with duckdb.connect('data/db.duckdb', read_only=True) as conn:
+            return conn.sql(query).pl()
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Cleanup
-    """)
-    return
-
-
-@app.cell
-def _(conn):
-    conn.close()
-    return
+    return mo, q
 
 
 @app.cell(hide_code=True)
@@ -44,57 +33,26 @@ def _(mo):
 
 
 @app.cell
-def _(conn, mo):
-    _df = mo.sql(
-        f"""
-        SHOW TABLES;
-        """,
-        engine=conn
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(conn, mo):
-    _df = mo.sql(
-        f"""
-        SELECT * FROM main.customers;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("show tables;")
     return
 
 
 @app.cell
-def _(conn, mo, raw_orders):
-    _df = mo.sql(
-        f"""
-        DESCRIBE FROM raw_orders;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("from schema_orders;")
     return
 
 
 @app.cell
-def _(conn, mo, orders):
-    _df = mo.sql(
-        f"""
-        DESCRIBE FROM orders;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("from stg_orders;")
     return
 
 
 @app.cell
-def _(conn, mo, orders):
-    _df = mo.sql(
-        f"""
-        FROM orders;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("from daily_order_summary;")
     return
 
 
@@ -107,16 +65,13 @@ def _(mo):
 
 
 @app.cell
-def _(conn, daily_order_summary, mo):
-    _df = mo.sql(
-        f"""
-        SELECT order_date, dbt_run_started_at
-        FROM daily_order_summary 
-        ORDER BY 1 DESC
-        LIMIT 10;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("""
+        select order_date, dbt_run_started_at
+        from daily_order_summary 
+        order by 1 desc
+        limit 10;
+    """)
     return
 
 
@@ -129,18 +84,11 @@ def _(mo):
 
 
 @app.cell
-def _(conn, mo, orders_extended):
-    _df = mo.sql(
-        f"""
-        SELECT
-            order_id,
-            order_date,
-            amount,
-            extended_col
-        FROM orders_extended;
-        """,
-        engine=conn
-    )
+def _(q):
+    q("""
+        select order_date, total_orders, total_orders_doubled
+        from orders_extended;
+    """)
     return
 
 
