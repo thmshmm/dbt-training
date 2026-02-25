@@ -6,6 +6,11 @@ sources:
     tables:
       - name: raw_orders
         description: Table with raw order data ingested from the source system.
+        config:
+          freshness:
+            warn_after: {count: 3650, period: day}
+            error_after: {count: 7300, period: day}
+          loaded_at_field: "cast(strptime(cast(order_date as varchar), '%Y%m%d') as timestamp)"
       - name: raw_customers
         description: Table with raw customer data ingested from the source system.
       - name: raw_payments
