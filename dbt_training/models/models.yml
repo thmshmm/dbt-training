@@ -77,9 +77,12 @@ models:
           - not_null
       
       - name: total_orders_doubled
-        description: This is the total_orders column multiplied by 2, just to demonstrate how to add derived columns in a Python model.
+        description: This is the total_orders column multiplied by 2.
         tests:
           - not_null
+          - expression_true: # custom generic test
+              arguments:
+                expression: '> total_orders'
 
   - name: daily_order_summary
     description: This table demonstrates incremental materialization by aggregating order metrics by day.
