@@ -41,6 +41,8 @@ def dbt_full_dag():
 
     dbt_tasks = {}
 
+    # Code borrowed from https://www.astronomer.io/blog/airflow-dbt-1/#a-better-better-way
+    # Nice article on how to run dbt via Airflow.
     for node in data["nodes"].keys():
         if node.split(".")[0] == "model":
             model = node.split(".")[-1]
