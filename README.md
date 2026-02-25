@@ -32,6 +32,9 @@ just build-all
 ### Running Models
 
 ```bash
+# Via dbt cli
+dbt run --select ...
+
 # Build all models
 just build-all
 
@@ -57,6 +60,9 @@ just start-notebook
 ```bash
 # Start Airflow standalone mode
 just start-airflow
+
+# Get the generated password, username is 'admin'
+cat airflow/simple_auth_manager_passwords.json.generated
 ```
 
 ## Project Structure
